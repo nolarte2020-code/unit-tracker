@@ -1,0 +1,3 @@
+URL: https://app.meetelise.com/platformApi/webchat/9460c1ca-3dc1-11ec-8b97-1b3093b557f0/lead-sources
+
+["Former Resident","Signage","RentCafe","Findigs","Banner","Urgent Lead","Facebook","Property Website","Email Blast","Resident Referral","Drive by","Social Media","Apartments.com","Applicant Grouping","Yelp","Apartment List","RENTCafe.com ILS","Apartment Ratings","Transfer","Brochure/Flyer","Apartment Search","Direct mailer/Postcards","Drive-by/Walk-in","MeetElise"]

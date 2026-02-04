@@ -1,0 +1,65 @@
+[
+  {
+    "unit_id": "5404213",
+    "unit_number": "114",
+    "available_on": "2026-01-23",
+    "price": 2522,
+    "floor_plan_id": "268431"
+  },
+  {
+    "unit_id": "5404223",
+    "unit_number": "124",
+    "available_on": "2026-01-18",
+    "price": 2631,
+    "floor_plan_id": "268436"
+  },
+  {
+    "unit_id": "5404301",
+    "unit_number": "248",
+    "available_on": "2026-01-18",
+    "price": 2613,
+    "floor_plan_id": "268443"
+  },
+  {
+    "unit_id": "5404303",
+    "unit_number": "250",
+    "available_on": "2026-01-20",
+    "price": 3283,
+    "floor_plan_id": "268435"
+  },
+  {
+    "unit_id": "5404315",
+    "unit_number": "304",
+    "available_on": "2026-01-18",
+    "price": 3407,
+    "floor_plan_id": "268432"
+  },
+  {
+    "unit_id": "5404320",
+    "unit_number": "309",
+    "available_on": "2026-01-18",
+    "price": 3342,
+    "floor_plan_id": "268435"
+  },
+  {
+    "unit_id": "5404321",
+    "unit_number": "310",
+    "available_on": "2026-01-19",
+    "price": 2522,
+    "floor_plan_id": "268436"
+  },
+  {
+    "unit_id": "5404325",
+    "unit_number": "314",
+    "available_on": "2026-02-28",
+    "price": 2441,
+    "floor_plan_id": "268431"
+  },
+  {
+    "unit_id": "5404425",
+    "unit_number": "456",
+    "available_on": "2026-01-18",
+    "price": 2570,
+    "floor_plan_id": "268445"
+  }
+]
