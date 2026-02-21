@@ -348,6 +348,7 @@ export default function App() {
   // App mode (Phase 1): Admin with "View as rep"
   // ---------------------------
   const [isAdminMode, setIsAdminMode] = useState(true);
+  const [isAdminUser, setIsAdminUser] = useState(false);
   const [adminViewRepId, setAdminViewRepId] = useState(""); // "" => all
   // effective rep scope (Phase 1)
   const effectiveRepId = isAdminMode ? adminViewRepId : adminViewRepId;
@@ -464,6 +465,15 @@ export default function App() {
       return;
     }
     setReps(data || []);
+
+    const repRows = data || [];
+    // If RLS only returns a single rep row, assume this is a Rep login.
+    // If multiple rep rows are visible, assume Admin.
+    setIsAdminUser(repRows.length > 1);
+    if (repRows.length === 1 && repRows[0]?.id) {
+      setAdminViewRepId(repRows[0].id);
+      setIsAdminMode(false);
+    }
     setLoadingReps(false);
   };
 
@@ -486,6 +496,14 @@ export default function App() {
       await loadProperties();
     })();
   }, []);
+
+  // Ensure Rep logins can’t access Admin-only controls/mode.
+  useEffect(() => {
+    if (!isAdminUser) {
+      setIsAdminMode(false);
+    }
+  }, [isAdminUser]);
+
 
   // ---------------------------
   // Daily Units Loader (EVENTS) (table: daily_units)
@@ -1218,6 +1236,14 @@ export default function App() {
   const currentRepName = effectiveRepId ? (repMap.get(effectiveRepId) || "Unknown") : "All";
   const scopedPropsCount = scopedProperties.length;
 
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error("Logout failed:", e);
+    }
+  };
+
   return (
     <div style={{ padding: 20, fontFamily: "Arial", background: ui.bg, minHeight: "100vh" }}>
       <div style={ui.header}>
@@ -1232,6 +1258,8 @@ export default function App() {
             <div style={{ fontWeight: "bold" }}>{isAdminMode ? "Admin" : "Rep"}</div>
           </div>
 
+          {isAdminUser && (
+          <>
           {/* Phase 1: Admin "View as Rep" */}
           <div style={ui.pill}>
             <span style={{ color: "#94a3b8", fontSize: 12 }}>View as Rep</span>
@@ -1249,11 +1277,18 @@ export default function App() {
             <input type="checkbox" checked={isAdminMode} onChange={(e) => setIsAdminMode(e.target.checked)} />
             Admin Mode
           </label>
+          </>
+          )}
 
           <div style={{ color: "#e2e8f0", fontSize: 12, maxWidth: 420, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {status}
           </div>
-        </div>
+        
+
+          <button onClick={handleLogout} style={ui.logoutBtn}>
+            Logout
+          </button>
+</div>
       </div>
 
       {/* Tabs */}
@@ -1265,7 +1300,9 @@ export default function App() {
         <button onClick={() => setTab("currentUnits")} style={tabBtn(tab === "currentUnits")}>Current Units</button>
         <button onClick={() => setTab("dailyUnits")} style={tabBtn(tab === "dailyUnits")}>Daily Units</button>
         <button onClick={() => setTab("properties")} style={tabBtn(tab === "properties")}>Properties</button>
+        {isAdminUser && (
         <button onClick={() => setTab("reps")} style={tabBtn(tab === "reps")}>Reps</button>
+        )}
 
         <div style={{ marginLeft: "auto", color: "#334155", alignSelf: "center", fontSize: 12 }}>
           <b>Rep:</b> {currentRepName} • <b>Props:</b> {scopedPropsCount}
@@ -2612,7 +2649,17 @@ const ui = {
     cursor: "pointer",
     fontWeight: "bold",
   },
-  smallBtn: {
+  logoutBtn: {
+    padding: "10px 14px",
+    borderRadius: 12,
+    border: "1px solid #ef4444",
+    background: "#ef4444",
+    color: "white",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
+
+    smallBtn: {
     padding: "8px 10px",
     borderRadius: 10,
     border: "1px solid #cbd5e1",
